@@ -1,9 +1,9 @@
-# IMPORTANT: Bug Fixes
+# Face Detection Exploration
 
-## `navigator.getUserMedia`
+Just trying some stuff and playing around with [face-api]('https://justadudewhohacks.github.io/face-api.js/docs/index.html') - focusing on the expressions that it can detect from the user.
 
-`navigator.getUserMedia` is now deprecated and is replaced by `navigator.mediaDevices.getUserMedia`. To fix this bug replace all versions of `navigator.getUserMedia` with `navigator.mediaDevices.getUserMedia`
-
-## Low-end Devices Bug
-
-The video eventListener for `play` fires up too early on low-end machines, before the video is fully loaded, which causes errors to pop up from the Face API and terminates the script (tested on Debian [Firefox] and Windows [Chrome, Firefox]). Replaced by `playing` event, which fires up when the media has enough data to start playing.
+***
+### Instructions
+- Clone this repo
+- Run the `index.html` file with a [Live Server]('https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer')
+- Open the console to see the output

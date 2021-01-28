@@ -15,6 +15,25 @@ function startVideo() {
   )
 }
 
+let lastCurrentExpression
+let currentTime = new Date()
+
+const numToPercentage = (num) => (num * 100).toFixed(2)
+
+const getTimeDiffInSec = () => parseInt(Math.abs((new Date()).getTime() - currentTime.getTime()) / (1000) % 60)
+
+const getCurrentExpression = (expressions) => {
+  let currentExpression
+  let highestProbability = 0
+  for (let [expression, probability] of Object.entries(expressions)) {
+    if (probability > highestProbability) {
+      highestProbability = probability
+      currentExpression = expression
+    }
+  }
+  return currentExpression
+}
+
 video.addEventListener('play', () => {
   const canvas = faceapi.createCanvasFromMedia(video)
   document.body.append(canvas)
@@ -27,5 +46,15 @@ video.addEventListener('play', () => {
     faceapi.draw.drawDetections(canvas, resizedDetections)
     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
     faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
-  }, 100)
+
+    const expressions = detections[0]?.expressions
+    let currentExpression = expressions ? getCurrentExpression(expressions) : null
+    if (currentExpression !== lastCurrentExpression && expressions) {
+      const timeDiffInSec = getTimeDiffInSec()
+      currentTime = new Date()
+      console.log(`You are now ${currentExpression} after being ${lastCurrentExpression} for ${timeDiffInSec} seconds `)
+      lastCurrentExpression = currentExpression
+    }
+
+  }, 1000)
 })
